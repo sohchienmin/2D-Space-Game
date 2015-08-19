@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>2D Space Game</title>
+		<link rel="stylesheet" type="text/css" href="css/core.css">
+		<link rel="stylesheet" type="text/css" href="css/typeography.css">
+		<style>
+			body, html { 
+		    width: 100%;
+		    height: 100%;
+		    margin: 0;
+		    padding: 0;
+		    overflow: hidden;
+			}
+			#starfield {
+			    width:100%;
+			    height:100%;
+			    z-index: -1;
+			    position: absolute;
+			    left: 0px;
+			    top: 0px;
+			}
+			#gamecontainer {
+			    
+			    width:100%;
+			    height:100%;
+			    z-index: -1;
+			    position: absolute;
+			    left: 0px;
+			    top: 0px;
+			}
+ 
+		</style>
+	</head>
+	<body>
+		<div id="starfield"></div>
+		<div id="gamecontainer">
+		    <canvas id="gameCanvas"></canvas>
+		</div>  
+		<script src="js/starfield.js"></script>
+		<script src="js/game.js"></script>
+		<script src="js/sprite.js"></script>
+		<script src="https://code.createjs.com/soundjs-0.6.1.min.js"></script>
+		<script src="js/gameover.js"></script>
+		<script src="js/levelintro.js"></script>
+		<script src="js/menu.js"></script>
+		<script src="js/pause.js"></script>
+		<script src="js/play.js"></script>
+		<script src="js/instructions.js"></script>
+		<script>
+			//  Create the starfield.
+			var container = document.getElementById('starfield');
+			var starfield = new Starfield();
+			starfield.initialise(container);
+			starfield.start();
+
+			//  Setup the canvas.
+			var canvas = document.getElementById("gameCanvas");
+			canvas.width = window.innerWidth; //800
+			canvas.height = window.innerHeight; // 600
+			 
+			//  Create the game.
+			var game = new Game();
+			 
+			//  Initialise it with the game canvas.
+			game.initialise(canvas);
+			 
+			//  Start the game.
+			game.start();
+			 
+			//  Listen for keyboard events.
+			window.addEventListener("keydown", function keydown(e) {
+			    var keycode = e.which || window.event.keycode;
+			    //  Supress further processing of left/right/space (37/29/32)
+			    if(keycode == 37 || keycode == 39 || keycode == 32) {
+			        e.preventDefault();
+			    }
+			    game.keyDown(keycode);
+			});
+			window.addEventListener("keyup", function keydown(e) {
+			    var keycode = e.which || window.event.keycode;
+			    game.keyUp(keycode);
+			});
+
+		</script>
+	</body>
+</html>
